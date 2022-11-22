@@ -178,16 +178,16 @@ export default {
       
     },
 
-    setup(){
-      return {v$: useVuelidate()}
-    },
-    
     editTask(){
       const[year, month, day] = this.deadline.split('-');
       this.$emit('editTask', this.description, `${month}/${day}/${year}`, this.priority);
       this.clear();
       this.close();
     },
+  },
+  
+  setup(){
+      return {v$: useVuelidate()}
   },
   data(){
     return {
@@ -200,8 +200,11 @@ export default {
   validations() {
     return {
       description: {
-        required: validators.required,
-      },
+        required,
+        description_validation: {
+          message:"a mgs"
+        }
+      }
     }
   }
 };
