@@ -13,28 +13,31 @@
   />
 
   <div class="container-fluid">
-    <div class="card">
-      <div
-        class="card-header d-flex justify-content-between align-items-center"
-      >
-        <div class="col-sm-11">
-          <h5 class="text-center">FRAMEWORKS</h5>
-        </div>
-        <div class="col-sm-1">
-          <button
-            @click="submitTaskPopup"
-            type="button"
-            class="btn btn-primary btn-sm"
-          >
-            <span class="fa-solid fa-circle-plus"></span> ADD
-          </button>
+    <div class="card bg-primary text-center">
+      <div class="card-header justify-content-between">
+        <div class="row">
+          <div class="col-sm-10">
+            <h5 class="card-title" style="color: white">
+              <i class="fa-solid fa-bars"></i> FRAMEWORKS
+            </h5>
+          </div>
+          <div class="col-sm-2">
+            <button
+              @click="submitTaskPopup"
+              type="button"
+              class="btn btn-primary btn-sm"
+              style="border: 2px solid"
+            >
+              <span class="fa-solid fa-circle-plus"></span> ADD
+            </button>
+          </div>
         </div>
       </div>
     </div>
 
     <div>
       <!--Task Table-->
-      <table class="table table-bordered">
+      <table class="table table-bordered text-center">
         <thead>
           <tr>
             <th scope="col">Title</th>
