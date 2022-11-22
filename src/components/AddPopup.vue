@@ -19,12 +19,18 @@
           <form>
           <div class="form-group" v-if= "isAddTask">
           <label for = "title" class="ms-2 position-absolute" style="margin-top: -0.60rem"> <span class="h7 small bg-white text-muted px-1">Title</span></label>
-          <input type="text" class="form-control mt-3" id="title" v-model = "title" placeholder = "Title"> </input>
+          <input type="text" class="form-control mt-3" id="title" v-model = "v$.title.$modal" placeholder = "Title"> </input>
           </div>
+          <div class="input-errors" v-for="(error, index) of v$.description.$errors" :key="index">
+              <div style="color:red; font-size:12px" class="error-msg">{{ error.$message }}</div>
+            </div>
           
           <div class = "form-group" >
           <label for = "description" class="ms-2 position-absolute" style="margin-top: -0.60rem"> <span class="h7 small bg-white text-muted px-1">Description</span></label>
           <input type="text" class="form-control mt-3" id="description" placeholder = "Description" v-model= "v$.description.$model"></input>
+          <div class="input-errors" v-for="(error, index) of v$.description.$errors" :key="index">
+              <div style="color:red; font-size:12px" class="error-msg">{{ error.$message }}</div>
+            </div>
           </div>
           <div class = "form-group" >
           <label for = "deadline" class="ms-2 position-absolute" style="margin-top: -0.60rem"> <span class="h7 small bg-white text-muted px-1">Deadline</span></label>
@@ -160,10 +166,13 @@ export default {
   },
   methods: {
     submitTask(title, description, deadline, priority){
+        this.v$.$validate();
+        if(!this.v$.$error){
         const[year, month, day] = this.deadline.split('-');
         this.$emit('submitTask',this.title, this.description, `${month}/${day}/${year}`, this.priority);
         this.clear();
         this.close();
+        }
       
     },
     close() {
@@ -189,6 +198,7 @@ export default {
   setup(){
       return {v$: useVuelidate()}
   },
+
   data(){
     return {
       title: '',
@@ -199,11 +209,11 @@ export default {
   },
   validations() {
     return {
+      title: {
+        required,
+      },
       description: {
         required,
-        description_validation: {
-          message:"a mgs"
-        }
       }
     }
   }
