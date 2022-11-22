@@ -26,7 +26,7 @@
             type="button"
             class="btn btn-primary btn-sm"
           >
-            <span class="fa-solid fa-circle-plus"></span> Add
+            <span class="fa-solid fa-circle-plus"></span> ADD
           </button>
         </div>
       </div>
@@ -74,7 +74,7 @@
                   class="btn btn-primary btn-block btn-sm w-75"
                 >
                   <span class="fa-solid fa-pen-to-square"></span>
-                  update
+                  UPDATE
                 </button>
               </div>
               <div>
@@ -83,7 +83,7 @@
                   class="btn btn-danger btn-block btn-sm w-75"
                 >
                   <span class="fa-solid fa-circle-xmark"></span>
-                  cancel
+                  DELETE
                 </button>
               </div>
             </td>
