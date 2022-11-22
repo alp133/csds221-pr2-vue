@@ -12,27 +12,26 @@
               <div v-else key = "updateA">
                 <span class="fa-solid fa-pen-to-square" ></span>
                 Edit Task
-               </div>
+              </div>
             </h5>
           </div>
           <section class="modal-body">
           <form>
           <div class="form-group" v-if= "isAddTask">
           <label for = "title" class="ms-2 position-absolute" style="margin-top: -0.60rem"> <span class="h7 small bg-white text-muted px-1">Title</span></label>
-          <input type="text" class="form-control mt-3" id="title" v-model = "v$.title.$modal" placeholder = "Title"> </input>
-          </div>
-          <div class="input-errors" v-for="(error, index) of v$.description.$errors" :key="index">
+          <input type="text" class="form-control mt-3" id="title" ref="title" v-model = "v$.title.$model" placeholder = "Title"> </input>
+            <div class="input-errors" v-for="(error, index) of v$.description.$errors" :key="index">
               <div style="color:red; font-size:12px" class="error-msg">{{ error.$message }}</div>
             </div>
-          
-          <div class = "form-group" >
+          </div>
+          <div class = "form-group">
           <label for = "description" class="ms-2 position-absolute" style="margin-top: -0.60rem"> <span class="h7 small bg-white text-muted px-1">Description</span></label>
           <input type="text" class="form-control mt-3" id="description" placeholder = "Description" v-model= "v$.description.$model"></input>
-          <div class="input-errors" v-for="(error, index) of v$.description.$errors" :key="index">
+            <div class="input-errors" v-for="(error, index) of v$.description.$errors" :key="index">
               <div style="color:red; font-size:12px" class="error-msg">{{ error.$message }}</div>
             </div>
           </div>
-          <div class = "form-group" >
+          <div class = "form-group">
           <label for = "deadline" class="ms-2 position-absolute" style="margin-top: -0.60rem"> <span class="h7 small bg-white text-muted px-1">Deadline</span></label>
           <input type = "date" class = "form-control mt-3" id ="deadline" v-model = "deadline">
           </div>
@@ -40,7 +39,7 @@
             <div>Priority: {{priority}} </div>
             <input type="radio" name="priority" id="low" value = "Low" v-model = "priority" />
             <label for="low" class = "radio"> Low </label>
-            <input style = "mt-3"  type="radio" name="priority" id="med" value = "Med" v-model = "priority"/>
+            <input type="radio" name="priority" id="med" value = "Med" v-model = "priority"/>
             <label class= "radio" for="med"> Med </label>
             <input type="radio" id="high" value = "High" v-model = "priority" name="priority"/> 
 
@@ -50,16 +49,16 @@
 
           </section>
 
-        <footer class="modal-footer">
-            <div v-if = "isAddTask" key = "addB">
+          <footer class="modal-footer">
+            <div v-if = "isAddTask" key = "addButton">
               <button type="button" class="btn btn-block btn-primary" @click="submitTask">
-              <span class="fa-solid fa-circle-plus"></span> Add
+               Add
               </button>
               <button type="button" class="btn btn-block btn-danger" @click="close">
               <span class="fa-solid fa-circle-xmark"></span> Cancel
               </button>
             </div>
-            <div v-else key = "updateB">
+            <div v-else key = "updateButton">
               <button type="button" class="btn btn-block btn-primary" @click="editTask">
               <span class="fa-solid fa-pen-to-square"></span> Edit
               </button>
@@ -88,7 +87,6 @@
   border-radius: 4;
   margin: 1;
 }
-
 .modal {
   background: rgba(240, 248, 255, 0.18);
   box-shadow: 2px 2px 20px 1px;
@@ -96,13 +94,11 @@
   display: flex;
   flex-direction: column;
 }
-
 .modal-header,
 .modal-footer {
   padding: 15px;
   display: flex;
 }
-
 .modal-header {
   position: relative;
   border-bottom: 1px solid #eeeeee;
@@ -110,19 +106,16 @@
   color: white;
   justify-content: center;
 }
-
 .modal-footer {
   border-top: 1px solid #eeeeee;
   flex-direction: column;
   justify-content: flex-end;
 }
-
 .modal-body {
   position: relative;
   padding: 20px 10px;
   margin: 5;
 }
-
 .btn-close {
   position: absolute;
   top: 0;
@@ -135,12 +128,14 @@
   color: #4aae9b;
   background: transparent;
 }
-
 .btn-green {
   color: white;
   background: #4aae9b;
   border: 1px solid #4aae9b;
   border-radius: 2px;
+}
+.has-error {
+    border: 1px solid red;
 }
 </style>
 
@@ -157,26 +152,17 @@ export default {
     existing_priority: String,
     tasks: Array
   },
-  watch: {
-    deadline(){
-      if(this.deadline.includes("-")){
-        this.deadline = this.formatDate(this.deadline)
-      }
-    },
-  },
   methods: {
     submitTask(title, description, deadline, priority){
-        this.v$.$validate();
-        if(!this.v$.$error){
+      this.v$.$validate()
+      if(!this.v$.$error) {
         const[year, month, day] = this.deadline.split('-');
         this.$emit('submitTask',this.title, this.description, `${month}/${day}/${year}`, this.priority);
         this.clear();
-        this.close();
-        }
-      
+        this.close(); 
+      } 
     },
     close() {
-      this.clear();
       this.$emit('close');
     },
     clear(){
@@ -184,9 +170,7 @@ export default {
       this.description = '';
       this.deadline = '';
       this.priority = 'low';
-      
     },
-
     editTask(){
       const[year, month, day] = this.deadline.split('-');
       this.$emit('editTask', this.description, `${month}/${day}/${year}`, this.priority);
@@ -194,29 +178,36 @@ export default {
       this.close();
     },
   },
-  
-  setup(){
-      return {v$: useVuelidate()}
+  setup () {
+    return { v$: useVuelidate() }
   },
-
-  data(){
+  data() {
     return {
       title: '',
       description: '',
       priority:'',
       deadline: '',
+      priority:'',
+      date: '',
     }
   },
   validations() {
     return {
       title: {
-        required,
+        required, 
+        isUnique(){
+
+        },
+        title_validation: {
+            $message: 'Invalid Name. Valid name only contain letters, dashes (-) and spaces'
+          } 
       },
       description: {
-        required,
+        required, description_validation: {
+            $message: 'Invalid Name. Valid name only contain letters, dashes (-) and spaces'
+          } 
       }
     }
   }
 };
 </script>
-
