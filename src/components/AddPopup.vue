@@ -177,7 +177,8 @@ export default {
     },
     
     editTask(){
-      this.$emit('editTask', this.description, this,deadline, this.priority);
+      const[year, month, day] = this.deadline.split('-');
+      this.$emit('editTask', this.description, `${month}/${day}/${year}`, this.priority);
       this.clear();
       this.close();
     },
