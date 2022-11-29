@@ -195,9 +195,9 @@ export default {
     return {
       title: {
         required, 
-        isUnique(){
+        /*isUnique(){
 
-        },
+        },*/
         title_validation: {
             $message: 'Invalid Name. Valid name only contain letters, dashes (-) and spaces'
           } 
